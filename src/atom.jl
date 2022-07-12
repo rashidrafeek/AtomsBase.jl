@@ -42,6 +42,13 @@ function Atom(identifier::AtomId,
     Atom{length(position), L, V, M}(position, velocity, atomic_symbol,
                                     atomic_number, atomic_mass, Dict(kwargs...))
 end
+function Atom(identifier::AtomId,
+              position::AbstractVector{L},
+              velocity::Missing;
+              kwargs...) where {L <: Unitful.Length}
+    velocity = zeros(3)u"bohr/s"
+    Atom(identifier, position, velocity; kwargs...)
+end
 
 # Update constructor: Amend any atom by extra data.
 function Atom(;atom, kwargs...)
